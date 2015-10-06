@@ -1,13 +1,9 @@
 <!DOCTYPE>
 <html>
     <head>
-        <title> Guest Book </title>
+        <title> Title </title>
     </head>
     <body>
-        <form action="inset" method="POST">
-            <label> Name <input name="name" type="text" /></label>
-            <label> Message <input name="msg" type="text" /></label>
-            <input name="submit" type="submit" value="Submit" />       
-        </form>
+        <h1> Hi, this is just a static page. </h1>
     </body>
 </html>
