@@ -2,6 +2,7 @@ var http = require('http');
 var router = require('httpdispatcher');
 var url = require('url');
 var view = require('swig');
+var querystring = require('querystring');
 
 const PORT = 8080;
 
@@ -16,23 +17,24 @@ router.setStaticDirname(__dirname);
 router.setStatic('resources');
 
 router.onGet('/', function(req, res) {
-    var v = view.renderFile(htmlPath+'index.html');
+    var v = view.renderFile(htmlPath+'form.html');
 
-    handleQuery();
     res.writeHead(200, {'Content-type': 'text/html'});
     res.end(v);
 });
 
-router.onGet('/get', function(req, res) {
-    var json = url.parse(req.url, true);
-    var v = view.renderFile(htmlPath+'index.html', {
-        pagename: 'awesome people',
-        authors: ['Paul', 'Jim', 'Jane']
+router.onPost('/', function(req, res) {
+    var json = querystring.parse(req.body);
+    var v = view.renderFile(htmlPath+'swig.html', {
+        num: parseInt(json.num),
+        range: makeRange(1, 12)
     });
+
+    console.dir(json);
+    console.log(typeof(json.num));
 
     res.writeHead(200, {'Content-type': 'text/html'});
     res.end(v);
-    //res.write(JSON.stringify(json.query.name));
 });
 
 function handleRequest(request, response)
@@ -40,19 +42,12 @@ function handleRequest(request, response)
     try {
         console.log(request.url);
         router.dispatch(request, response);
-        var body = "";
-
-        request.on('data', function(data) {
-            console.log("Partial body: "+data.toString());
-            body += data;
-        });
-
-        request.on('end', function() {
-            console.log(body.toString());
-        });
-
-    } catch (err) {
+     } catch (err) {
         console.log(err);
     }
 }
 
+function makeRange(start, len)
+{
+    return (new Array(len)).join().split(',').map(function (n, idx) { return idx + start; });
+}

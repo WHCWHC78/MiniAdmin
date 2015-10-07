@@ -1,14 +1,14 @@
 <!DOCTYPE>
 <html>
     <head>
-        <title> Guest Book </title>
+        <title> Multiplication Table </title>
     </head>
     <body>
-        <h1>{{ pagename|title }}</h1>
+        <h1>Multiplication Table</h1>
             <ul>
-            {% for author in authors %}
-              <li{% if loop.first %} class="first"{% endif %}>
-                {{ author }}
+            {% for i in range %}
+              <li>
+                {{ i * num }}
               </li>
             {% endfor %}
             </ul>    
